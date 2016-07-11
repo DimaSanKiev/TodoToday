@@ -7,7 +7,6 @@ import todotoday.dao.UserDao;
 import todotoday.model.User;
 
 public class UsesrServiceImpl implements UserService {
-
     @Autowired
     private UserDao userDao;
 

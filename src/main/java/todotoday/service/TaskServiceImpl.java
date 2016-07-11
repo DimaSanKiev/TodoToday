@@ -7,7 +7,6 @@ import todotoday.model.Task;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-
     @Autowired
     private TaskDao taskDao;
 
