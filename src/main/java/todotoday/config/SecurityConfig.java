@@ -31,11 +31,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().anyRequest().hasRole("USER")
+            .authorizeRequests()
+                .anyRequest().hasRole("USER")
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+            .formLogin().loginPage("/login")
+                .permitAll()
                 .successHandler(loginSuccessHandler())
-                .failureHandler(loginFailureHandler());
+                .failureHandler(loginFailureHandler())
+                .and()
+            .logout()
+                .permitAll()
+                .logoutSuccessUrl("/login");
     }
 
     public AuthenticationSuccessHandler loginSuccessHandler() {
