@@ -27,6 +27,7 @@ public class TaskController {
     public String taskList(Model model) {
         Iterable<Task> tasks = taskService.findAll();
         model.addAttribute("tasks", tasks);
+        model.addAttribute("newTask", new Task());
         return "todo";
     }
 
@@ -38,8 +39,6 @@ public class TaskController {
 
     @RequestMapping(path = "/tasks", method = RequestMethod.POST)
     public String addTask(@ModelAttribute Task task, Principal principal) {
-        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-        task.setUser(user);
         taskService.save(task);
         return "redirect:/";
     }
