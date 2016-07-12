@@ -7,7 +7,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import todotoday.service.UserService;
+import todotoday.web.FlashMessage;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +30,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().hasRole("USER");
+        http
+                .authorizeRequests().anyRequest().hasRole("USER")
+                .and()
+                .formLogin().loginPage("/login").permitAll()
+                .successHandler(loginSuccessHandler())
+                .failureHandler(loginFailureHandler());
+    }
+
+    public AuthenticationSuccessHandler loginSuccessHandler() {
+        return (request, response, authentication) -> response.sendRedirect("/");
+    }
+
+    public AuthenticationFailureHandler loginFailureHandler() {
+        return (request, response, exception) -> {
+            request.getSession().setAttribute("flash", new FlashMessage("Incorrect username and/or password. Please try again.", FlashMessage.Status.FAILURE));
+            response.sendRedirect("/login");
+        };
     }
 }
