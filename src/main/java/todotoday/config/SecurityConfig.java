@@ -44,11 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login");
     }
 
-    public AuthenticationSuccessHandler loginSuccessHandler() {
+    private AuthenticationSuccessHandler loginSuccessHandler() {
         return (request, response, authentication) -> response.sendRedirect("/");
     }
 
-    public AuthenticationFailureHandler loginFailureHandler() {
+    private AuthenticationFailureHandler loginFailureHandler() {
         return (request, response, exception) -> {
             request.getSession().setAttribute("flash", new FlashMessage("Incorrect username and/or password. Please try again.", FlashMessage.Status.FAILURE));
             response.sendRedirect("/login");
