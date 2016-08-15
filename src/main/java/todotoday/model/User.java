@@ -21,7 +21,7 @@ public class User implements UserDetails {
     private String username;
 
     @Column(length = 100)
-    private String passwrod;
+    private String password;
 
     @Column(nullable = false)
     private boolean enabled;
@@ -37,9 +37,17 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String getPassword() {
-        return passwrod;
+        return password;
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.Properties;
 @PropertySource("application.properties")
 public class DataConfig {
     @Autowired
-    private Environment environment;
+    private Environment env;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -28,7 +28,7 @@ public class DataConfig {
 
         factory.setDataSource(dataSource());
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan(environment.getProperty("todotoday.entity.package"));
+        factory.setPackagesToScan(env.getProperty("todotoday.entity.package"));
         factory.setJpaProperties(getHibernateProperties());
 
         return factory;
@@ -37,20 +37,20 @@ public class DataConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(environment.getProperty("todotoday.db.driver"));
-        dataSource.setUrl(environment.getProperty("todotoday.db.url"));
-        dataSource.setUsername(environment.getProperty("todotoday.db.username"));
-        dataSource.setPassword(environment.getProperty("todotoday.db.password"));
+        dataSource.setDriverClassName(env.getProperty("todotoday.db.driver"));
+        dataSource.setUrl(env.getProperty("todotoday.db.url"));
+        dataSource.setUsername(env.getProperty("todotoday.db.username"));
+        dataSource.setPassword(env.getProperty("todotoday.db.password"));
         return dataSource;
     }
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
-        properties.put("hibernate.implicit_naming_strategy", environment.getProperty("hibernate.implicit_naming_strategy"));
-        properties.put("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
-        properties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        properties.put("hibernate.implicit_naming_strategy", env.getProperty("hibernate.implicit_naming_strategy"));
+        properties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+        properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 }
